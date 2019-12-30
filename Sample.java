@@ -3,7 +3,11 @@ package main.java;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.StringTokenizer;
 
 import com.itextpdf.text.Chunk;
@@ -396,5 +400,26 @@ public class Sample {
                 e.printStackTrace();
         }
     }
+	public static Long atStartOfDay(LocalDateTime localDateTime) {
+		// LocalDateTime localDateTime = dateToLocalDateTime(date);
+		LocalDateTime startOfDay = localDateTime.with(LocalTime.MIN);
+		return localDateTimeToDate(startOfDay);
+	}
+
+	public static Long atEndOfDay(LocalDateTime localDateTime) {
+		// LocalDateTime localDateTime = dateToLocalDateTime(date);
+		LocalDateTime endOfDay = localDateTime.with(LocalTime.MAX);
+		return localDateTimeToDate(endOfDay);
+	}
+
+	private static LocalDateTime dateToLocalDateTime(Date date) {
+		return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+	}
+
+	private static Long localDateTimeToDate(LocalDateTime localDateTime) {
+		Date dt = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+		return dt.getTime() / 1000;
+	}
+
 }
 
